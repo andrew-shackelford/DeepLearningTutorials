@@ -261,7 +261,7 @@ def load_data(dataset):
 
 def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
                            dataset='mnist.pkl.gz',
-                           batch_size=600, L1_reg=0.00, L2_reg=0.0001, patience_increase=2):
+                           batch_size=600, L1_reg=0.00, L2_reg=0.00, patience_increase=2):
     """
     Demonstrate stochastic gradient descent optimization of a log-linear
     model
@@ -512,7 +512,6 @@ if __name__ == '__main__':
     	L1_reg = 0,
     	L2_reg = 0)
     	)
-    
     results.append(
     	sgd_optimization_mnist(
     	patience_increase = 1,
