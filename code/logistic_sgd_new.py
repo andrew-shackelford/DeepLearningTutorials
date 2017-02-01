@@ -261,7 +261,7 @@ def load_data(dataset):
 
 def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
                            dataset='mnist.pkl.gz',
-                           batch_size=600, L1_reg=0.00, L2_reg=0.0001):
+                           batch_size=600, L1_reg=0.00, L2_reg=0.0001, patience_increase=2):
     """
     Demonstrate stochastic gradient descent optimization of a log-linear
     model
@@ -372,7 +372,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
     print('... training the model')
     # early-stopping parameters
     patience = 5000  # look as this many examples regardless
-    patience_increase = 1  # wait this much longer when a new best is
+    #patience_increase = 1  # wait this much longer when a new best is
                                   # found
 
     print('patience is: ' + str(patience))
@@ -464,6 +464,8 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
            os.path.split(__file__)[1] +
            ' ran for %.1fs' % ((end_time - start_time))), file=sys.stderr)
 
+    return patience_increase, L1_reg, L2_reg, best_validation_loss, test_score, (end_time - start_time)
+
 
 def predict():
     """
@@ -491,4 +493,65 @@ def predict():
 
 
 if __name__ == '__main__':
-    sgd_optimization_mnist()
+    results = []
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 1,
+    	L1_reg = 0,
+    	L2_reg = 0)
+    	)
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 2,
+    	L1_reg = 0,
+    	L2_reg = 0)
+    	)
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 3,
+    	L1_reg = 0,
+    	L2_reg = 0)
+    	)
+    
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 1,
+    	L1_reg = 0,
+    	L2_reg = 0.001)
+    	)
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 2,
+    	L1_reg = 0,
+    	L2_reg = 0.001)
+    	)
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 3,
+    	L1_reg = 0,
+    	L2_reg = 0.001)
+    	)
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 1,
+    	L1_reg = 0,
+    	L2_reg = 0.0001)
+    	)
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 2,
+    	L1_reg = 0,
+    	L2_reg = 0.0001)
+    	)
+    results.append(
+    	sgd_optimization_mnist(
+    	patience_increase = 3,
+    	L1_reg = 0,
+    	L2_reg = 0.0001)
+    	)
+	
+    for item in results:
+    	print("Patience: " + str(item[0]) + " L1 reg: " + str(item[1]) + " L2 reg: " + str(item[2]))
+    	print("Validation: " + str(item[3] * 100.) + "% Test: " + str(item[4] * 100.) + "%")
+    	print("Time ran: " + str(item[5]) + " sec")
+    	print()
